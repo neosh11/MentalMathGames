@@ -226,7 +226,7 @@ const DisplayQuestion = React.memo(DisplayQuestionNM, (prev, next) => {
   return prev.question === next.question && prev.onAnswer === next.onAnswer;
 });
 
-const Started = ({ testState, questions, setTestState, timeAllowed }) => {
+const Started = ({ testState, questions, setTestState, timeAllowed, id }) => {
   const { question, score } = testState;
   const { l1, l2, l3, operation, option1, option2, option3, option4, answer } =
     questions[question];
@@ -250,7 +250,7 @@ const Started = ({ testState, questions, setTestState, timeAllowed }) => {
     return () => {
       clearInterval(timer);
     };
-  }, [timeLeft, setTestState, testState]);
+  }, [timeLeft, setTestState, testState, id]);
 
   // Format remaining time display
   const formatTimeLeft = () => {
@@ -331,7 +331,7 @@ const Started = ({ testState, questions, setTestState, timeAllowed }) => {
                 // end test
                 setTestState({ ...testState, started: "done" });
               }}
-              className="w-full bg-blue-500 hover:bg-blue-700 text-white dark:bg-pink-500 dark:text-slate-50 dark:hover:bg-slate-50 dark:hover:text-slate-500 font-bold py-2 px-4 rounded"
+              className="w-full hover:bg-blue-700 text-white bg-pink-500 dark:text-slate-50 dark:hover:bg-slate-50 dark:hover:text-slate-500 font-bold py-2 px-4 rounded"
             >
               End Test
             </button>
@@ -405,6 +405,22 @@ export default function Test() {
     // update time too
   }, [id]);
 
+  // make a useeffect run if started == done
+  useEffect(() => {
+    if (testState.started === "done") {
+      // save all the wrong answers
+      // Save the score locallyyy...
+      const history = localStorage.getItem(`history-${id}`);
+      const scoreArray = JSON.parse(history) || [];
+      // append the score to this...
+      scoreArray.push(score);
+      // remove the first element if there are more than 100 elements
+      if (scoreArray.length > 100) scoreArray.shift();
+      // save this to local storage
+      localStorage.setItem(`history-${id}`, JSON.stringify(scoreArray));
+    }
+  }, [testState.started, id, score]);
+
   console.log("parent rerendered");
 
   return (
@@ -428,6 +444,7 @@ export default function Test() {
         {/* deal with started */}
         {started === "yes" && (
           <Started
+            id={id}
             timeAllowed={timeAllowed}
             testState={testState}
             questions={questions}

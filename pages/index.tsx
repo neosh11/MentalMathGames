@@ -12,6 +12,7 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Sparklines, SparklinesLine } from "react-sparklines";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -73,8 +74,22 @@ if (typeof window !== "undefined") {
 export default function Home() {
   const [theme, setTheme] = useState("light");
 
+  const [history, setHistory] = useState([]);
+
   useEffect(() => {
     if (typeof window !== "undefined") {
+      // set history by looping htrought actions
+      // if history is not in localstorage, set it to empty array
+      const newHistory = [];
+      for (let i = 0; i < actions.length; i++) {
+        const sp = actions[i].href.split("/");
+        const id = sp[sp.length - 1];
+        newHistory.push(
+          JSON.parse(localStorage.getItem(`history-${id}`)) || []
+        );
+      }
+      setHistory(newHistory);
+
       if (localStorage.getItem("theme") === "light") {
         setTheme("light");
       } else {
@@ -148,6 +163,28 @@ export default function Home() {
                 </span>
               </div>
               <div className="mt-8">
+                <div>
+                  Last 3 Scores:{" "}
+                  {history[actionIdx] && history[actionIdx].length > 0
+                    ? history[actionIdx]
+                        .slice(Math.max(history[actionIdx].length - 3, 0))
+                        .map((score) => `${score}`)
+                        .join(", ")
+                    : "No history"}
+                </div>
+                {/* Make a graph based of history */}
+                <div className="flex flex-row">
+                  {history[actionIdx] && history[actionIdx].length > 0 ? (
+                    <div className="w-full h-auto">
+                      <Sparklines data={history[actionIdx]}>
+                        <SparklinesLine color="blue" />
+                      </Sparklines>
+                    </div>
+                  ) : (
+                    <div className="text-gray-500">No history</div>
+                  )}
+                </div>
+
                 <h3 className="text-base font-semibold leading-6">
                   <Link href={action.href} className="focus:outline-none">
                     {/* Extend touch target to entire panel */}
