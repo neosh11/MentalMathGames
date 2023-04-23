@@ -2,7 +2,7 @@ import "@/styles/globals.css";
 
 export default function App({ Component, pageProps }) {
   if (typeof window !== "undefined") {
-    if (localStorage.getItem("theme") !== "dark") {
+    if (localStorage.getItem("theme") === "light") {
       document.documentElement.classList.remove("dark");
       console.log("removeing dark");
     } else {
