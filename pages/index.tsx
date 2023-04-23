@@ -11,6 +11,7 @@ import {
   UsersIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -45,7 +46,37 @@ const actions: Action[] = [
   },
 ];
 
+let showThemeToggle;
+
+if (typeof window !== "undefined") {
+  showThemeToggle = true;
+}
+
 export default function Home() {
+  const [theme, setTheme] = useState("light");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      if (localStorage.getItem("theme") === "light") {
+        setTheme("light");
+      } else {
+        setTheme("dark");
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      console.log(theme, theme === "dark");
+      if (theme === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        console.log("bruh");
+        document.documentElement.classList.remove("dark");
+      }
+    }
+  }, [theme]);
+
   return (
     <>
       <Head>
@@ -59,6 +90,21 @@ export default function Home() {
       </Head>
       <main>
         <div className="h-screen divide-y divide-gray-200 overflow-hidden bg-gray-200 dark:bg-slate-900 dark:text-slate-50 shadow sm:grid sm:grid-cols-2 sm:gap-px sm:divide-y-0">
+          <button
+            onClick={() => {
+              if (theme === "dark") {
+                localStorage.setItem("theme", "light");
+                setTheme("light");
+              } else {
+                localStorage.setItem("theme", "dark");
+                setTheme("dark");
+              }
+            }}
+            className="w-full bg-blue-500 hover:bg-blue-700 text-white dark:bg-slate-500 dark:text-slate-50 dark:hover:bg-slate-50 dark:hover:text-slate-500 font-bold py-2 px-4 rounded"
+          >
+            {theme === "light" ? "☀️" : "🌙"}
+          </button>
+
           {actions.map((action, actionIdx) => (
             <div
               key={action.title}
