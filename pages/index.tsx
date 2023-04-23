@@ -107,7 +107,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="h-screen divide-y divide-gray-200 overflow-hidden bg-gray-200 dark:bg-slate-900 dark:text-slate-50 shadow sm:grid sm:grid-cols-2 sm:gap-px sm:divide-y-0">
+        <div className="min-h-screen divide-y divide-gray-200 overflow-hidden bg-gray-200 dark:bg-slate-900 dark:text-slate-50 shadow sm:grid sm:grid-cols-2 sm:gap-px sm:divide-y-0">
           <button
             onClick={() => {
               if (theme === "dark") {

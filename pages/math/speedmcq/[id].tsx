@@ -416,7 +416,7 @@ export default function Test() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="h-screen w-full flex items-center justify-center dark:bg-slate-900">
+      <main className="min-h-screen w-full flex items-center justify-center dark:bg-slate-900">
         {/* deal with not started */}
         {started === "no" && (
           <NotStarted
