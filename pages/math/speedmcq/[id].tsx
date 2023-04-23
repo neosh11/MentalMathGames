@@ -305,35 +305,37 @@ const Started = ({ testState, questions, setTestState, timeAllowed }) => {
   ]);
 
   return (
-    <div className="rounded-lg bg-gray-100 dark:bg-slate-950 dark:text-slate-50 w-full m-5 h-5/6">
-      <div
-        className={`flex flex-col gap-y-2 rounded-lg h-full p-2 ${flashClass}`}
-      >
-        {/* display time left */}
-        <div className="flex text-sm justify-between">
-          <div>{formatTimeLeft()}</div>
-          {/* display your score */}
-          <div>Score: {score}</div>
-          <div>Question: {question + 1}</div>
-        </div>
+    <div className="self-stretch w-full m-5">
+      <div className="rounded-lg min-h-full bg-gray-100 dark:bg-slate-950 dark:text-slate-50 w-full h-5/6">
+        <div
+          className={`flex flex-col gap-y-2 rounded-lg h-full p-2 ${flashClass}`}
+        >
+          {/* display time left */}
+          <div className="flex text-sm justify-between">
+            <div>{formatTimeLeft()}</div>
+            {/* display your score */}
+            <div>Score: {score}</div>
+            <div>Question: {question + 1}</div>
+          </div>
 
-        <div className="items-center h-full">
-          <DisplayQuestion
-            onAnswer={onAnswerMemo}
-            question={questions[question]}
-          />
-        </div>
+          <div className="items-center h-full">
+            <DisplayQuestion
+              onAnswer={onAnswerMemo}
+              question={questions[question]}
+            />
+          </div>
 
-        <div className="items-center">
-          <button
-            onClick={() => {
-              // end test
-              setTestState({ ...testState, started: "done" });
-            }}
-            className="w-full bg-blue-500 hover:bg-blue-700 text-white dark:bg-pink-500 dark:text-slate-50 dark:hover:bg-slate-50 dark:hover:text-slate-500 font-bold py-2 px-4 rounded"
-          >
-            End Test
-          </button>
+          <div className="items-center">
+            <button
+              onClick={() => {
+                // end test
+                setTestState({ ...testState, started: "done" });
+              }}
+              className="w-full bg-blue-500 hover:bg-blue-700 text-white dark:bg-pink-500 dark:text-slate-50 dark:hover:bg-slate-50 dark:hover:text-slate-500 font-bold py-2 px-4 rounded"
+            >
+              End Test
+            </button>
+          </div>
         </div>
       </div>
     </div>
