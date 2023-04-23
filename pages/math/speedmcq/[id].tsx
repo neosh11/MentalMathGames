@@ -5,54 +5,171 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 
+const generateQuestionIntegerAddSubtract = () => {
+  const l1 = Math.floor(Math.random() * 100);
+  const l2 = Math.floor(Math.random() * 100);
+  const operation = Math.random() > 0.5 ? "+" : "-";
+  const l3 = operation === "+" ? l1 + l2 : l1 - l2;
+
+  // delete one of l1, l2, l3 randomly
+  const deleteOne = Math.floor(Math.random() * 3);
+  const l1_ = deleteOne === 0 ? undefined : l1.toString();
+  const l2_ = deleteOne === 1 ? undefined : l2.toString();
+  const l3_ = deleteOne === 2 ? undefined : l3.toString();
+
+  // answer /options  basically which one was deleted
+  const answer = deleteOne === 0 ? l1 : deleteOne === 1 ? l2 : l3;
+
+  // options are numbers close to answer with some randomness, and only 1 option is correct with no 2 options being same
+  const options = [answer];
+  for (let j = 0; j < 3; j++) {
+    let option = answer + Math.floor(Math.random() * 10) - 5;
+    while (options.includes(option)) {
+      option = answer + Math.floor(Math.random() * 10) - 5;
+    }
+    options.push(option);
+  }
+  // shuffle options
+  for (let j = 0; j < 4; j++) {
+    const i1 = Math.floor(Math.random() * 4);
+    const i2 = Math.floor(Math.random() * 4);
+    const temp = options[i1];
+    options[i1] = options[i2];
+    options[i2] = temp;
+  }
+
+  const [option1, option2, option3, option4] = options;
+  return {
+    l1: l1_,
+    l2: l2_,
+    l3: l3_,
+    operation,
+    option1,
+    option2,
+    option3,
+    option4,
+    answer,
+  };
+};
+
+const generateQuestionMultiply = () => {
+  const operation = "x";
+  const l1 = Math.floor(Math.random() * 34 + 2);
+  let l2 = Math.floor(Math.random() * 34 + 2);
+
+  if (l1 > 25 && l2 > 20) {
+    l2 = Math.floor(Math.random() * 20 + 2);
+  }
+
+  const l3 = l1 * l2;
+
+  // delete one of l1, l2, l3 randomly
+  const deleteOne = Math.floor(Math.random() * 3);
+  const l1_ = deleteOne === 0 ? undefined : l1.toString();
+  const l2_ = deleteOne === 1 ? undefined : l2.toString();
+  const l3_ = deleteOne === 2 ? undefined : l3.toString();
+
+  // answer /options  basically which one was deleted
+  const answer = deleteOne === 0 ? l1 : deleteOne === 1 ? l2 : l3;
+
+  // options are numbers close to answer with some randomness, and only 1 option is correct with no 2 options being same
+  const options = [answer];
+  for (let j = 0; j < 3; j++) {
+    let option = answer + Math.floor(Math.random() * 10) - 5;
+    while (options.includes(option)) {
+      option = answer + Math.floor(Math.random() * 10) - 5;
+    }
+    options.push(option);
+  }
+  // shuffle options
+  for (let j = 0; j < 4; j++) {
+    const i1 = Math.floor(Math.random() * 4);
+    const i2 = Math.floor(Math.random() * 4);
+    const temp = options[i1];
+    options[i1] = options[i2];
+    options[i2] = temp;
+  }
+
+  const [option1, option2, option3, option4] = options;
+  return {
+    l1: l1_,
+    l2: l2_,
+    l3: l3_,
+    operation,
+    option1,
+    option2,
+    option3,
+    option4,
+    answer,
+  };
+};
+
+const generateQuestionDivide = () => {
+  const operation = "/";
+  const l1 = Math.floor(Math.random() * 34 + 2);
+  let l2 = Math.floor(Math.random() * 34 + 2);
+
+  if (l1 > 25 && l2 > 10) {
+    l2 = Math.floor(Math.random() * 10 + 2);
+  }
+
+  const l3 = l1 * l2;
+
+  // delete one of l1, l2, l3 randomly
+  const deleteOne = Math.floor(Math.random() * 3);
+  const l1_ = deleteOne === 0 ? undefined : l1.toString();
+  const l2_ = deleteOne === 1 ? undefined : l2.toString();
+  const l3_ = deleteOne === 2 ? undefined : l3.toString();
+
+  // answer /options  basically which one was deleted
+  const answer = deleteOne === 0 ? l1 : deleteOne === 1 ? l2 : l3;
+
+  // options are numbers close to answer with some randomness, and only 1 option is correct with no 2 options being same
+  const options = [answer];
+  for (let j = 0; j < 3; j++) {
+    let option = answer + Math.floor(Math.random() * 10) - 5;
+    while (options.includes(option)) {
+      option = answer + Math.floor(Math.random() * 10) - 5;
+    }
+    options.push(option);
+  }
+  // shuffle options
+  for (let j = 0; j < 4; j++) {
+    const i1 = Math.floor(Math.random() * 4);
+    const i2 = Math.floor(Math.random() * 4);
+    const temp = options[i1];
+    options[i1] = options[i2];
+    options[i2] = temp;
+  }
+
+  const [option1, option2, option3, option4] = options;
+  return {
+    l1: l3_,
+    l2: l2_,
+    l3: l1_,
+    operation,
+    option1,
+    option2,
+    option3,
+    option4,
+    answer,
+  };
+};
+
 const generateQuestionsInteger = (n) => {
   const newQuestions = [];
   for (let i = 0; i < 80; i++) {
-    const l1 = Math.floor(Math.random() * 100);
-    const l2 = Math.floor(Math.random() * 100);
-    const operation = Math.random() > 0.5 ? "+" : "-";
-    const l3 = operation === "+" ? l1 + l2 : l1 - l2;
+    // decide whether it will be
 
-    // delete one of l1, l2, l3 randomly
-    const deleteOne = Math.floor(Math.random() * 3);
-    const l1_ = deleteOne === 0 ? undefined : l1.toString();
-    const l2_ = deleteOne === 1 ? undefined : l2.toString();
-    const l3_ = deleteOne === 2 ? undefined : l3.toString();
-
-    // answer /options  basically which one was deleted
-    const answer = deleteOne === 0 ? l1 : deleteOne === 1 ? l2 : l3;
-
-    // options are numbers close to answer with some randomness, and only 1 option is correct with no 2 options being same
-    const options = [answer];
-    for (let j = 0; j < 3; j++) {
-      let option = answer + Math.floor(Math.random() * 10) - 5;
-      while (options.includes(option)) {
-        option = answer + Math.floor(Math.random() * 10) - 5;
-      }
-      options.push(option);
+    // decide whether it will be add/subtract or multiply
+    const questionType = Math.random();
+    if (questionType < 0.5)
+      newQuestions.push(generateQuestionIntegerAddSubtract());
+    else {
+      const multiplyOrDivide = Math.random();
+      if (multiplyOrDivide < 0.5) newQuestions.push(generateQuestionMultiply());
+      else newQuestions.push(generateQuestionDivide());
     }
-    // shuffle options
-    for (let j = 0; j < 4; j++) {
-      const i1 = Math.floor(Math.random() * 4);
-      const i2 = Math.floor(Math.random() * 4);
-      const temp = options[i1];
-      options[i1] = options[i2];
-      options[i2] = temp;
-    }
-
-    const [option1, option2, option3, option4] = options;
-
-    newQuestions.push({
-      l1: l1_,
-      l2: l2_,
-      l3: l3_,
-      operation,
-      option1,
-      option2,
-      option3,
-      option4,
-      answer,
-    });
   }
   return newQuestions;
 };

@@ -30,7 +30,8 @@ interface Action {
 const actions: Action[] = [
   {
     title: "Speed Math [MCQ]",
-    description: "We have styled this in the format of 80 MCQs in 8 minutes.",
+    description:
+      "NOT DONE! 🚧 Styled in the format of 80 MCQs in 8 minutes. Optiver Style.",
     href: "math/speedmcq/80in8",
     icon: ClockIcon,
     iconForeground: "text-teal-700",
@@ -38,8 +39,25 @@ const actions: Action[] = [
   },
   {
     title: "2 min speed integers",
-    description: "Quick maffs",
+    description: "Quick maffs, see if you can get better at speed integer",
     href: "math/speedmcq/20in2integer",
+    icon: ClockIcon,
+    iconForeground: "text-teal-700",
+    iconBackground: "bg-teal-50",
+  },
+  {
+    title: "2 min speed fraction",
+    description:
+      "NOT DONE! 🚧 Quick maffs, see if you can get better at speed fractions",
+    href: "#",
+    icon: ClockIcon,
+    iconForeground: "text-teal-700",
+    iconBackground: "bg-teal-50",
+  },
+  {
+    title: "2 min speed decimals",
+    description: "NOT DONE! 🚧 see if you can get better at speed decimals",
+    href: "#",
     icon: ClockIcon,
     iconForeground: "text-teal-700",
     iconBackground: "bg-teal-50",
