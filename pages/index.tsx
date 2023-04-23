@@ -10,6 +10,7 @@ import {
   ReceiptRefundIcon,
   UsersIcon,
 } from "@heroicons/react/24/outline";
+import Link from "next/link";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -57,7 +58,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-gray-200 shadow sm:grid sm:grid-cols-2 sm:gap-px sm:divide-y-0">
+        <div className="h-screen divide-y divide-gray-200 overflow-hidden bg-gray-200 dark:bg-slate-900 dark:text-slate-50 shadow sm:grid sm:grid-cols-2 sm:gap-px sm:divide-y-0">
           {actions.map((action, actionIdx) => (
             <div
               key={action.title}
@@ -70,14 +71,12 @@ export default function Home() {
                 actionIdx === actions.length - 1
                   ? "rounded-bl-lg rounded-br-lg sm:rounded-bl-none"
                   : "",
-                "group relative bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
+                "group relative bg-white dark:bg-slate-950 p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500"
               )}
             >
               <div>
                 <span
                   className={classNames(
-                    action.iconBackground,
-                    action.iconForeground,
                     "inline-flex rounded-lg p-3 ring-4 ring-white"
                   )}
                 >
@@ -85,12 +84,12 @@ export default function Home() {
                 </span>
               </div>
               <div className="mt-8">
-                <h3 className="text-base font-semibold leading-6 text-gray-900">
-                  <a href={action.href} className="focus:outline-none">
+                <h3 className="text-base font-semibold leading-6">
+                  <Link href={action.href} className="focus:outline-none">
                     {/* Extend touch target to entire panel */}
                     <span className="absolute inset-0" aria-hidden="true" />
                     {action.title}
-                  </a>
+                  </Link>
                 </h3>
                 <p className="mt-2 text-sm text-gray-500">
                   {action.description}

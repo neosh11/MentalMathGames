@@ -64,7 +64,7 @@ function NotStarted({ onStart }) {
       {/* a button to start */}
       <button
         onClick={() => onStart()}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        className="bg-blue-500 hover:bg-blue-700 text-white dark:bg-slate-500 dark:text-slate-50 dark:hover:bg-slate-50 dark:hover:text-slate-500 font-bold py-2 px-4 rounded"
       >
         Start
       </button>
@@ -82,8 +82,8 @@ const DisplayQuestionNM = ({
   const { l1, l2, l3, operation, option1, option2, option3, option4, answer } =
     question;
   return (
-    <div>
-      <div className="text-2xl">
+    <div className="gap-y-10 grid content-center h-full">
+      <div className="text-2xl text-center">
         {l1 || "?"} {operation} {l2 || "?"} = {l3 || "?"}
       </div>
 
@@ -95,7 +95,7 @@ const DisplayQuestionNM = ({
             onClick={() => {
               onAnswer(option, answer);
             }}
-            className="bg-blue-500 hover:bg-blue-700 w-full text-white font-bold py-2 px-4 rounded"
+            className="w-full max-w-lg bg-blue-500 hover:bg-blue-700 text-white dark:bg-slate-500 dark:text-slate-50 dark:hover:bg-slate-50 dark:hover:text-slate-500 font-bold py-2 px-4 rounded"
           >
             {option}
           </button>
@@ -123,9 +123,8 @@ const Started = ({ testState, questions, setTestState, timeAllowed }) => {
     }, 1000);
 
     // End the test when the timer reaches 0
-    if (timeLeft <= 0) {
+    if (timeLeft <= 0 || testState.started === "done") {
       // save all the wrong answers
-
       setTestState({ ...testState, started: "done" });
       clearInterval(timer);
     }
@@ -159,7 +158,7 @@ const Started = ({ testState, questions, setTestState, timeAllowed }) => {
       // wrong answer selected
       setTestState({
         ...testState,
-        score: score - 1,
+        score: score - 2,
         question: question + 1,
       });
       setFlashClass("red-flash");
@@ -189,19 +188,36 @@ const Started = ({ testState, questions, setTestState, timeAllowed }) => {
   ]);
 
   return (
-    <div className="rounded-lg bg-gray-100">
+    <div className="rounded-lg bg-gray-100 dark:bg-slate-950 dark:text-slate-50 w-full m-5 h-5/6">
       <div
-        className={`flex flex-col items-center justify-center rounded-lg ${flashClass}`}
+        className={`flex flex-col gap-y-2 rounded-lg h-full p-2 ${flashClass}`}
       >
         {/* display time left */}
-        <div className="text-xl">Time remaining: {formatTimeLeft()}</div>
-        {/* display your score */}
-        <div className="text-2xl">Score: {score}</div>
-        <div className="text-2xl">Question: {question + 1}</div>
-        <DisplayQuestion
-          onAnswer={onAnswerMemo}
-          question={questions[question]}
-        />
+        <div className="flex text-sm justify-between">
+          <div>{formatTimeLeft()}</div>
+          {/* display your score */}
+          <div>Score: {score}</div>
+          <div>Question: {question + 1}</div>
+        </div>
+
+        <div className="items-center h-full">
+          <DisplayQuestion
+            onAnswer={onAnswerMemo}
+            question={questions[question]}
+          />
+        </div>
+
+        <div className="items-center">
+          <button
+            onClick={() => {
+              // end test
+              setTestState({ ...testState, started: "done" });
+            }}
+            className="w-full bg-blue-500 hover:bg-blue-700 text-white dark:bg-pink-500 dark:text-slate-50 dark:hover:bg-slate-50 dark:hover:text-slate-500 font-bold py-2 px-4 rounded"
+          >
+            End Test
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -283,7 +299,7 @@ export default function Test() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
+      <main className="h-screen w-full flex items-center justify-center dark:bg-slate-900">
         {/* deal with not started */}
         {started === "no" && (
           <NotStarted
@@ -301,8 +317,8 @@ export default function Test() {
         )}
         {/* deal with test ended */}
         {started === "done" && (
-          <div className="flex flex-col items-center justify-center">
-            <div className="text-2xl">Test Ended</div>
+          <div className="flex flex-col items-center dark:text-slate-50 gap-y-5 justify-center">
+            <div className="text-2xl">Finished</div>
             <div className="text-2xl">Total Answered: {question}</div>
             <div className="text-2xl">Score: {score}</div>
             {/* go back to index.html*/}
